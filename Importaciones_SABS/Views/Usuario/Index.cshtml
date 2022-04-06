@@ -55,10 +55,15 @@
                 @Html.DisplayFor(modelItem => item.Correo)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Estado)
+                  @if(item.Estado == 1)
+                    {
+                        <button class="btn btn-success " style= "cursor:text"> Activo </button> 
+                    }else{
+                        <button class="btn btn-danger " style= "cursor:text"> Inactivo </button> 
+                    }
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.rol_id)
+                @Html.DisplayFor(modelItem => item.Rol)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
