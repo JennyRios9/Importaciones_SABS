@@ -1,0 +1,91 @@
+﻿@model IEnumerable<Importaciones_SABS.Models.Proveedores>
+
+@{
+    ViewData["Title"] = "Listar";
+}
+
+<div class="row">
+    <div class="col-12 px-4">
+        <h1>Lista proveedores</h1>
+        <div class="card">
+            <div class="card-header">
+                <a class="btn btn-warning" asp-action="Registrar">Registrar</a>
+            </div>
+            <div class="card-body">
+                <table id="proveedores" class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Nombre_empresa)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Direccion)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Telefono_empresa)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Correo)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Nombre_representante_legal)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Telefono_representante)
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Nombre_empresa)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Direccion)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Telefono_empresa)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Correo)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Nombre_representante_legal)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Telefono_representante)
+                                </td>
+                                <td>
+                                    <a class="btn btn-primary" asp-action="Editar" asp-route-id="@item.Id"><i class="bi bi-pencil-fill"></i></a> |
+                                    <a class="btn btn-info" asp-action="Detalle" asp-route-id="@item.Id"><i class="bi bi-eyeglasses"></i></a> |
+                                    <a class="btn btn-danger" asp-action="Eliminar" asp-route-id="@item.Id"><i class="bi bi-trash3-fill"></i></a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+
+
+    <script>
+        $(function () {
+            $('#proveedores').DataTable({
+                "paging": true,
+                "lengthChange": false,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+            });
+        });
+    </script>
+}

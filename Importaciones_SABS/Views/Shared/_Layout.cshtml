@@ -13,8 +13,12 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="~/css/adminlte.min.css">
+    <!-- DataTables -->
+    <link rel="stylesheet" href="~/lib/adminLte/datatables-bs4/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="~/lib/adminLte/datatables-responsive/css/responsive.bootstrap4.min.css">
+    <link rel="stylesheet" href="~/lib/adminLte/datatables-buttons/css/buttons.bootstrap4.min.css">
 </head>
-<body>
+<body class="layout-navbar-fixed layout-fixed layout-footer-fixed" style="height: auto;">
     <div class="wrapper">
 
         <!-- Navbar -->
@@ -25,10 +29,10 @@
                     <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="bi bi-three-dots-vertical"></i></a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
-                    
-                    <a asp-controller="Home" asp-action="Index" class="nav-link"><i class="bi bi-house-heart-fill"></i> Inicio</a>
+
+                    <a asp-controller="Home" asp-action="Inicio" class="nav-link"><i class="bi bi-house-heart-fill"></i> Inicio</a>
                 </li>
-              
+
             </ul>
 
         </nav>
@@ -36,7 +40,7 @@
         <!-- Main Sidebar Container -->
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
-            <a href="index3.html" class="brand-link">
+            <a asp-controller="Home" asp-action="Inicio" class="brand-link">
                 <img src="~/Imagenes/logo.jpeg" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
                 <span class="brand-text font-weight-light"> SABS</span>
             </a>
@@ -60,7 +64,7 @@
                              with font-awesome or any other icon font library -->
 
                         <li class="nav-item ">
-                            <a asp-controller="Usuario" asp-action="Index"  class="nav-link active">
+                            <a asp-controller="Usuario" asp-action="Listar" class="nav-link ">
                                 <i class="nav-icon bi bi-person-lines-fill"></i>
                                 <p>
                                     Gestión de Usuarios
@@ -68,7 +72,7 @@
                             </a>
                         </li>
                         <li class="nav-item ">
-                            <a href="#" class="nav-link ">
+                            <a asp-controller="Clientes" asp-action="Listar" class="nav-link ">
                                 <i class="nav-icon bi bi-people-fill"></i>
                                 <p>
                                     Gestión de Clientes
@@ -76,7 +80,7 @@
                             </a>
                         </li>
                         <li class="nav-item ">
-                            <a href="#" class="nav-link ">
+                            <a asp-controller="Proveedores" asp-action="Listar" class="nav-link ">
                                 <i class="nav-icon bi bi-truck"></i>
                                 <p>
                                     Gestión de Proveedores
@@ -84,7 +88,7 @@
                             </a>
                         </li>
                         <li class="nav-item ">
-                            <a href="#" class="nav-link ">
+                            <a asp-controller="Productos" asp-action="Listar" class="nav-link ">
                                 <i class="nav-icon bi bi-bag-heart-fill"></i>
                                 <p>
                                     Gestión de Productos
@@ -104,13 +108,9 @@
         </div>
         <!-- /.content-wrapper -->
         <!-- Main Footer -->
-        <footer class="main-footer">
-            <!-- To the right -->
-            <div class="float-right d-none d-sm-inline">
-                Anything you want
-            </div>
+        <footer class="main-footer">           
             <!-- Default to the left -->
-            <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights reserved.
+            <strong>Copyright &copy; 2014-2022 <a href="https://adminlte.io">Importaciones_SABS</a>.</strong> Todos los derechos reservados.
         </footer>
     </div>
 
@@ -123,6 +123,19 @@
 
     <!-- AdminLTE App -->
     <script src="~/js/adminlte.min.js"></script>
+    <!-- DataTables  & Plugins -->
+    <script src="~/lib/adminLte/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/lib/adminLte/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="~/lib/adminLte/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="~/lib/adminLte/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+    <script src="~/lib/adminLte/datatables-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="~/lib/adminLte/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+    <script src="~/lib/adminLte/jszip/jszip.min.js"></script>
+    <script src="~/lib/adminLte/pdfmake/pdfmake.min.js"></script>
+    <script src="~/lib/adminLte/pdfmake/vfs_fonts.js"></script>
+    <script src="~/lib/adminLte/datatables-buttons/js/buttons.html5.min.js"></script>
+    <script src="~/lib/adminLte/datatables-buttons/js/buttons.print.min.js"></script>
+    <script src="~/lib/adminLte/datatables-buttons/js/buttons.colVis.min.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

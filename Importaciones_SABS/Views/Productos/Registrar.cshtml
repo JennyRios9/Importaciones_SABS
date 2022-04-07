@@ -1,0 +1,77 @@
+﻿@model Importaciones_SABS.Models.Productos
+
+@{
+    ViewData["Title"] = "Registrar";
+}
+
+<div class="row">
+    <div class="col-6 px-5">
+        <h1>Registrar Producto</h1>
+        <div class="card">
+            <div class="card-body">
+                <form asp-action="Registrar" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="Codigo" class="control-label"></label>
+                        <input asp-for="Codigo" class="form-control" />
+                        <span asp-validation-for="Codigo" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="NombreProducto" class="control-label"></label>
+                        <input asp-for="NombreProducto" class="form-control" />
+                        <span asp-validation-for="NombreProducto" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="ValorUnitario" class="control-label"></label>
+                        <input asp-for="ValorUnitario" class="form-control" />
+                        <span asp-validation-for="ValorUnitario" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Iva" class="control-label"></label>
+                        <input asp-for="Iva" class="form-control" />
+                        <span asp-validation-for="Iva" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Cantidad" class="control-label"></label>
+                        <input asp-for="Cantidad" class="form-control" />
+                        <span asp-validation-for="Cantidad" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="FechaRegistro" class="control-label"></label>
+                        <input asp-for="FechaRegistro" class="form-control" />
+                        <span asp-validation-for="FechaRegistro" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Estado" class="control-label"></label>
+                        <select asp-for="Estado" class="form-control">
+                            <option value="1">Disponible</option>
+                            <option value="0">Agotado</option>
+                        </select>
+                        <span asp-validation-for="Estado" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Id_categoria" class="control-label"></label>
+                        <select asp-for="Id_categoria" class="form-control">
+                            <option selected>Seleccione...</option>
+                            <option value="1">Ropa</option>
+                            <option value="2">Tecnologia</option>
+                            <option value="3">Juguetes</option>
+                        </select>
+                        <span asp-validation-for="Id_categoria" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-cloud-plus-fill"></i> Guardar
+                        </button>
+                        <a class="btn btn-secondary" asp-action="Listar"><i class="bi bi-backspace"></i> Atras</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

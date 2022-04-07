@@ -1,0 +1,111 @@
+﻿@model IEnumerable<Importaciones_SABS.ClaseDto.ProductosDto
+            >
+
+@{
+    ViewData["Title"] = "Listar";
+}
+
+<div class="row">
+    <div class="col-12 px-4">
+        <h1>Lista Productos</h1>
+        <div class="card">
+            <div class="card-header">
+                <a class="btn btn-warning" asp-action="Registrar">Registrar</a>
+            </div>
+            <div class="card-body">
+                <table id="productos" class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Codigo)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.NombreProducto)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.ValorUnitario)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Iva)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Cantidad)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.FechaRegistro)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Estado)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.NombreCategoria)
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Codigo)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.NombreProducto)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ValorUnitario)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Iva)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Cantidad)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.FechaRegistro)
+                                </td>
+                                <td>
+                                    @if (item.Estado == 1)
+                                    {
+                                        <button class="btn btn-success " style="cursor:text"> Disponible </button>
+                                    }
+                                    else
+                                    {
+                                        <button class="btn btn-danger " style="cursor:text"> Agotado </button>
+                                    }
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.NombreCategoria)
+                                </td>
+                                <td>
+                                    <a class="btn btn-primary" asp-action="Editar" asp-route-id="@item.Id"><i class="bi bi-pencil-fill"></i></a> |
+                                    <a class="btn btn-info" asp-action="Detalle" asp-route-id="@item.Id"><i class="bi bi-eyeglasses"></i></a> |
+                                    <a class="btn btn-danger" asp-action="Eliminar" asp-route-id="@item.Id"><i class="bi bi-trash3-fill"></i></a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+
+
+    <script>
+        $(function () {
+            $('#productos').DataTable({
+                "paging": true,
+                "lengthChange": false,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+            });
+        });
+    </script>
+}

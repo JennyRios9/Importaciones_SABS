@@ -1,0 +1,62 @@
+﻿@model Importaciones_SABS.Models.Proveedores
+
+@{
+    ViewData["Title"] = "Detalle";
+}
+
+<div class="row pt-5">
+    <div class="col-8 offset-2">
+        <div class="card">
+            <div class="card-header bg-gradient-blue">
+                <h1>Información de los proveedores</h1>
+            </div>
+            <div class="card-body">
+                <div>
+                    <dl class="row">
+                        <dt class="col-sm-4">
+                            @Html.DisplayNameFor(model => model.Nombre_empresa)
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Html.DisplayFor(model => model.Nombre_empresa)
+                        </dd>
+                        <dt class="col-sm-4">
+                            @Html.DisplayNameFor(model => model.Direccion)
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Html.DisplayFor(model => model.Direccion)
+                        </dd>
+                        <dt class="col-sm-4">
+                            @Html.DisplayNameFor(model => model.Telefono_empresa)
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Html.DisplayFor(model => model.Telefono_empresa)
+                        </dd>
+                        <dt class="col-sm-4">
+                            @Html.DisplayNameFor(model => model.Correo)
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Html.DisplayFor(model => model.Correo)
+                        </dd>
+                        <dt class="col-sm-4">
+                            @Html.DisplayNameFor(model => model.Nombre_representante_legal)
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Html.DisplayFor(model => model.Nombre_representante_legal)
+                        </dd>
+                        <dt class="col-sm-4">
+                            @Html.DisplayNameFor(model => model.Telefono_representante)
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Html.DisplayFor(model => model.Telefono_representante)
+                        </dd>
+                    </dl>
+                </div>
+                <div>
+                    <a class="btn btn-primary" asp-action="Editar" asp-route-id="@Model?.Id"> <i class="bi bi-pencil-fill"></i> Editar</a> |
+                    <a class="btn btn-secondary" asp-action="Listar"><i class="bi bi-backspace"></i> Atras</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
