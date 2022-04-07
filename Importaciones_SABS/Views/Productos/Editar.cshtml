@@ -32,9 +32,14 @@
                         <input asp-for="Iva" class="form-control" />
                         <span asp-validation-for="Iva" class="text-danger"></span>
                     </div>
+                     <div class="form-group">
+                        <label  class="control-label"></label>
+                        <input onkeyup="CantidadAgregada()" id="imput_nueva_Cantidad" class="form-control" />
+                        <span asp-validation-for="Cantidad" class="text-danger"></span>
+                    </div>
                     <div class="form-group">
                         <label asp-for="Cantidad" class="control-label"></label>
-                        <input asp-for="Cantidad" class="form-control" />
+                        <input id="imput_cantidad_final" asp-for="Cantidad" disabled class="form-control" />
                         <span asp-validation-for="Cantidad" class="text-danger"></span>
                     </div>
                     <div class="form-group">
@@ -75,3 +80,31 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+
+
+<script>
+    function CantidadAgregada(){
+        let cantidadExistente = document.getElementById('imput_cantidad_final').value;
+        let nuevaCantidad = document.getElementById('imput_nueva_Cantidad').value;
+
+          if(parseInt(nuevaCantidad) < 2){
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Oops...',
+                  text: 'Vea señor ni sea pobre, compre más... ',
+                  footer: '<a href="">Tan pobre es ?</a>'
+                })
+        let nuevaCantidad = document.getElementById('imput_nueva_Cantidad').value = " ";
+
+        }else{
+            
+        let total = parseInt(cantidadExistente) + parseInt(nuevaCantidad)
+
+        document.getElementById('imput_cantidad_final').value = total;
+        }
+
+
+
+      
+    }
+</script>
