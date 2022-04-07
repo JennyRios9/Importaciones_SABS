@@ -11,45 +11,46 @@ using Importaciones_SABS.ClaseDto;
 
 namespace Importaciones_SABS.Controllers
 {
-    public class UsuarioController : Controller
+    public class ProductosController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public UsuarioController(ApplicationDbContext context)
+        public ProductosController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Usuario
+        // GET: Productos
         public async Task<IActionResult> Listar()
         {
             await using (_context)
             {
-                IEnumerable<UsuariosDto> ListaUsuarios =
-                    (from usuarios in _context.Usuarios
-                     join rol in _context.Roles
-                     on usuarios.rol_id equals
-                     rol.Id
-                     select new UsuariosDto
+                IEnumerable<ProductosDto> ListaProductos =
+                    (from productos  in _context.Productos
+                     join categoria in _context.Categoria
+                     on productos.Id_categoria equals 
+                     categoria.IdCategoria
+                     select new ProductosDto
                      {
-                         Id = usuarios.Id,
-                         Nombre = usuarios.Nombre,
-                         Apellido = usuarios.Apellido,
-                         Cedula = usuarios.Cedula,
-                         Telefono = usuarios.Telefono,
-                         Correo = usuarios.Correo,
-                         Estado = usuarios.Estado,
-                         rol_id = rol.Id,
-                         Rol = rol.Nombre
+                         Id = productos.Id, 
+                         Codigo = productos.Codigo, 
+                         NombreProducto = productos.NombreProducto, 
+                         ValorUnitario = productos.ValorUnitario,   
+                         Iva = productos.Iva,
+                         Cantidad = productos.Cantidad,
+                         FechaRegistro = productos.FechaRegistro,
+                         Estado = productos.Estado,
+                         NombreCategoria = categoria.NombreCategoria,
 
                      }
-                    ).ToList();
-                return View(ListaUsuarios);
+                     ).ToList();    
+                return View(ListaProductos);
             }
 
+               
         }
 
-        // GET: Usuario/Detalle/5
+        // GET: Productos/Detalle/5
         public async Task<IActionResult> Detalle(int? id)
         {
             if (id == null)
@@ -57,39 +58,39 @@ namespace Importaciones_SABS.Controllers
                 return NotFound();
             }
 
-            var usuarios = await _context.Usuarios
+            var productos = await _context.Productos
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (usuarios == null)
+            if (productos == null)
             {
                 return NotFound();
             }
 
-            return View(usuarios);
+            return View(productos);
         }
 
-        // GET: Usuario/Registrar
+        // GET: Productos/Registrar
         public IActionResult Registrar()
         {
             return View();
         }
 
-        // POST: Usuario/Registrar
+        // POST: Productos/Registrar
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Registrar([Bind("Id,Nombre,Apellido,Cedula,Telefono,Correo,Estado,rol_id")] Usuarios usuarios)
+        public async Task<IActionResult> Registrar([Bind("Id,Codigo,NombreProducto,ValorUnitario,Iva,Cantidad,FechaRegistro,Estado,Id_categoria")] Productos productos)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(usuarios);
+                _context.Add(productos);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Listar));
             }
-            return View(usuarios);
+            return View(productos);
         }
 
-        // GET: Usuario/Editar/5
+        // GET: Productos/Editar/5
         public async Task<IActionResult> Editar(int? id)
         {
             if (id == null)
@@ -97,22 +98,22 @@ namespace Importaciones_SABS.Controllers
                 return NotFound();
             }
 
-            var usuarios = await _context.Usuarios.FindAsync(id);
-            if (usuarios == null)
+            var productos = await _context.Productos.FindAsync(id);
+            if (productos == null)
             {
                 return NotFound();
             }
-            return View(usuarios);
+            return View(productos);
         }
 
-        // POST: Usuario/Editar/5
+        // POST: Productos/Editar/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Editar(int id, [Bind("Id,Nombre,Apellido,Cedula,Telefono,Correo,Estado,rol_id")] Usuarios usuarios)
+        public async Task<IActionResult> Editar(int id, [Bind("Id,Codigo,NombreProducto,ValorUnitario,Iva,Cantidad,FechaRegistro,Estado,Id_categoria")] Productos productos)
         {
-            if (id != usuarios.Id)
+            if (id != productos.Id)
             {
                 return NotFound();
             }
@@ -121,12 +122,12 @@ namespace Importaciones_SABS.Controllers
             {
                 try
                 {
-                    _context.Update(usuarios);
+                    _context.Update(productos);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!UsuariosExists(usuarios.Id))
+                    if (!ProductosExists(productos.Id))
                     {
                         return NotFound();
                     }
@@ -137,10 +138,10 @@ namespace Importaciones_SABS.Controllers
                 }
                 return RedirectToAction(nameof(Listar));
             }
-            return View(usuarios);
+            return View(productos);
         }
 
-        // GET: Usuario/Eliminar/5
+        // GET: Productos/Eliminar/5
         public async Task<IActionResult> Eliminar(int? id)
         {
             if (id == null)
@@ -148,30 +149,30 @@ namespace Importaciones_SABS.Controllers
                 return NotFound();
             }
 
-            var usuarios = await _context.Usuarios
+            var productos = await _context.Productos
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (usuarios == null)
+            if (productos == null)
             {
                 return NotFound();
             }
 
-            return View(usuarios);
+            return View(productos);
         }
 
-        // POST: Usuario/Eliminar/5
+        // POST: Productos/Eliminar/5
         [HttpPost, ActionName("Eliminar")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var usuarios = await _context.Usuarios.FindAsync(id);
-            _context.Usuarios.Remove(usuarios);
+            var productos = await _context.Productos.FindAsync(id);
+            _context.Productos.Remove(productos);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Listar));
         }
 
-        private bool UsuariosExists(int id)
+        private bool ProductosExists(int id)
         {
-            return _context.Usuarios.Any(e => e.Id == id);
+            return _context.Productos.Any(e => e.Id == id);
         }
     }
 }

@@ -7,49 +7,25 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Importaciones_SABS.Datos;
 using Importaciones_SABS.Models;
-using Importaciones_SABS.ClaseDto;
 
 namespace Importaciones_SABS.Controllers
 {
-    public class UsuarioController : Controller
+    public class ProveedoresController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public UsuarioController(ApplicationDbContext context)
+        public ProveedoresController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Usuario
+        // GET: Proveedores
         public async Task<IActionResult> Listar()
         {
-            await using (_context)
-            {
-                IEnumerable<UsuariosDto> ListaUsuarios =
-                    (from usuarios in _context.Usuarios
-                     join rol in _context.Roles
-                     on usuarios.rol_id equals
-                     rol.Id
-                     select new UsuariosDto
-                     {
-                         Id = usuarios.Id,
-                         Nombre = usuarios.Nombre,
-                         Apellido = usuarios.Apellido,
-                         Cedula = usuarios.Cedula,
-                         Telefono = usuarios.Telefono,
-                         Correo = usuarios.Correo,
-                         Estado = usuarios.Estado,
-                         rol_id = rol.Id,
-                         Rol = rol.Nombre
-
-                     }
-                    ).ToList();
-                return View(ListaUsuarios);
-            }
-
+            return View(await _context.Proveedores.ToListAsync());
         }
 
-        // GET: Usuario/Detalle/5
+        // GET: Proveedores/Detalle/5
         public async Task<IActionResult> Detalle(int? id)
         {
             if (id == null)
@@ -57,39 +33,39 @@ namespace Importaciones_SABS.Controllers
                 return NotFound();
             }
 
-            var usuarios = await _context.Usuarios
+            var proveedores = await _context.Proveedores
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (usuarios == null)
+            if (proveedores == null)
             {
                 return NotFound();
             }
 
-            return View(usuarios);
+            return View(proveedores);
         }
 
-        // GET: Usuario/Registrar
+        // GET: Proveedores/Registrar
         public IActionResult Registrar()
         {
             return View();
         }
 
-        // POST: Usuario/Registrar
+        // POST: Proveedores/Registrar
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Registrar([Bind("Id,Nombre,Apellido,Cedula,Telefono,Correo,Estado,rol_id")] Usuarios usuarios)
+        public async Task<IActionResult> Registrar([Bind("Id,Nombre_empresa,Direccion,Telefono_empresa,Correo,Nombre_representante_legal,Telefono_representante")] Proveedores proveedores)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(usuarios);
+                _context.Add(proveedores);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Listar));
             }
-            return View(usuarios);
+            return View(proveedores);
         }
 
-        // GET: Usuario/Editar/5
+        // GET: Proveedores/Editar/5
         public async Task<IActionResult> Editar(int? id)
         {
             if (id == null)
@@ -97,22 +73,22 @@ namespace Importaciones_SABS.Controllers
                 return NotFound();
             }
 
-            var usuarios = await _context.Usuarios.FindAsync(id);
-            if (usuarios == null)
+            var proveedores = await _context.Proveedores.FindAsync(id);
+            if (proveedores == null)
             {
                 return NotFound();
             }
-            return View(usuarios);
+            return View(proveedores);
         }
 
-        // POST: Usuario/Editar/5
+        // POST: Proveedores/Editar/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Editar(int id, [Bind("Id,Nombre,Apellido,Cedula,Telefono,Correo,Estado,rol_id")] Usuarios usuarios)
+        public async Task<IActionResult> Editar(int id, [Bind("Id,Nombre_empresa,Direccion,Telefono_empresa,Correo,Nombre_representante_legal,Telefono_representante")] Proveedores proveedores)
         {
-            if (id != usuarios.Id)
+            if (id != proveedores.Id)
             {
                 return NotFound();
             }
@@ -121,12 +97,12 @@ namespace Importaciones_SABS.Controllers
             {
                 try
                 {
-                    _context.Update(usuarios);
+                    _context.Update(proveedores);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!UsuariosExists(usuarios.Id))
+                    if (!ProveedoresExists(proveedores.Id))
                     {
                         return NotFound();
                     }
@@ -137,10 +113,10 @@ namespace Importaciones_SABS.Controllers
                 }
                 return RedirectToAction(nameof(Listar));
             }
-            return View(usuarios);
+            return View(proveedores);
         }
 
-        // GET: Usuario/Eliminar/5
+        // GET: Proveedores/Eliminar/5
         public async Task<IActionResult> Eliminar(int? id)
         {
             if (id == null)
@@ -148,30 +124,30 @@ namespace Importaciones_SABS.Controllers
                 return NotFound();
             }
 
-            var usuarios = await _context.Usuarios
+            var proveedores = await _context.Proveedores
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (usuarios == null)
+            if (proveedores == null)
             {
                 return NotFound();
             }
 
-            return View(usuarios);
+            return View(proveedores);
         }
 
-        // POST: Usuario/Eliminar/5
+        // POST: Proveedores/Eliminar/5
         [HttpPost, ActionName("Eliminar")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var usuarios = await _context.Usuarios.FindAsync(id);
-            _context.Usuarios.Remove(usuarios);
+            var proveedores = await _context.Proveedores.FindAsync(id);
+            _context.Proveedores.Remove(proveedores);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Listar));
         }
 
-        private bool UsuariosExists(int id)
+        private bool ProveedoresExists(int id)
         {
-            return _context.Usuarios.Any(e => e.Id == id);
+            return _context.Proveedores.Any(e => e.Id == id);
         }
     }
 }

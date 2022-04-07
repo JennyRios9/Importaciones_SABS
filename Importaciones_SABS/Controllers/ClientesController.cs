@@ -7,49 +7,25 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Importaciones_SABS.Datos;
 using Importaciones_SABS.Models;
-using Importaciones_SABS.ClaseDto;
 
 namespace Importaciones_SABS.Controllers
 {
-    public class UsuarioController : Controller
+    public class ClientesController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public UsuarioController(ApplicationDbContext context)
+        public ClientesController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Usuario
+        // GET: Clientes
         public async Task<IActionResult> Listar()
         {
-            await using (_context)
-            {
-                IEnumerable<UsuariosDto> ListaUsuarios =
-                    (from usuarios in _context.Usuarios
-                     join rol in _context.Roles
-                     on usuarios.rol_id equals
-                     rol.Id
-                     select new UsuariosDto
-                     {
-                         Id = usuarios.Id,
-                         Nombre = usuarios.Nombre,
-                         Apellido = usuarios.Apellido,
-                         Cedula = usuarios.Cedula,
-                         Telefono = usuarios.Telefono,
-                         Correo = usuarios.Correo,
-                         Estado = usuarios.Estado,
-                         rol_id = rol.Id,
-                         Rol = rol.Nombre
-
-                     }
-                    ).ToList();
-                return View(ListaUsuarios);
-            }
-
+            return View(await _context.Clientes.ToListAsync());
         }
 
-        // GET: Usuario/Detalle/5
+        // GET: Clientes/Detalle/5
         public async Task<IActionResult> Detalle(int? id)
         {
             if (id == null)
@@ -57,39 +33,39 @@ namespace Importaciones_SABS.Controllers
                 return NotFound();
             }
 
-            var usuarios = await _context.Usuarios
+            var clientes = await _context.Clientes
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (usuarios == null)
+            if (clientes == null)
             {
                 return NotFound();
             }
 
-            return View(usuarios);
+            return View(clientes);
         }
 
-        // GET: Usuario/Registrar
+        // GET: Clientes/Registrar
         public IActionResult Registrar()
         {
             return View();
         }
 
-        // POST: Usuario/Registrar
+        // POST: Clientes/Registrar
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Registrar([Bind("Id,Nombre,Apellido,Cedula,Telefono,Correo,Estado,rol_id")] Usuarios usuarios)
+        public async Task<IActionResult> Registrar([Bind("Id,Nombre,Apellido,Correo,Telefono,Fecha_nacimiento,Direccion")] Clientes clientes)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(usuarios);
+                _context.Add(clientes);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Listar));
             }
-            return View(usuarios);
+            return View(clientes);
         }
 
-        // GET: Usuario/Editar/5
+        // GET: Clientes/Editar/5
         public async Task<IActionResult> Editar(int? id)
         {
             if (id == null)
@@ -97,22 +73,22 @@ namespace Importaciones_SABS.Controllers
                 return NotFound();
             }
 
-            var usuarios = await _context.Usuarios.FindAsync(id);
-            if (usuarios == null)
+            var clientes = await _context.Clientes.FindAsync(id);
+            if (clientes == null)
             {
                 return NotFound();
             }
-            return View(usuarios);
+            return View(clientes);
         }
 
-        // POST: Usuario/Editar/5
+        // POST: Clientes/Editar/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Editar(int id, [Bind("Id,Nombre,Apellido,Cedula,Telefono,Correo,Estado,rol_id")] Usuarios usuarios)
+        public async Task<IActionResult> Editar(int id, [Bind("Id,Nombre,Apellido,Correo,Telefono,Fecha_nacimiento,Direccion")] Clientes clientes)
         {
-            if (id != usuarios.Id)
+            if (id != clientes.Id)
             {
                 return NotFound();
             }
@@ -121,12 +97,12 @@ namespace Importaciones_SABS.Controllers
             {
                 try
                 {
-                    _context.Update(usuarios);
+                    _context.Update(clientes);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!UsuariosExists(usuarios.Id))
+                    if (!ClientesExists(clientes.Id))
                     {
                         return NotFound();
                     }
@@ -137,10 +113,10 @@ namespace Importaciones_SABS.Controllers
                 }
                 return RedirectToAction(nameof(Listar));
             }
-            return View(usuarios);
+            return View(clientes);
         }
 
-        // GET: Usuario/Eliminar/5
+        // GET: Clientes/Eliminar/5
         public async Task<IActionResult> Eliminar(int? id)
         {
             if (id == null)
@@ -148,30 +124,30 @@ namespace Importaciones_SABS.Controllers
                 return NotFound();
             }
 
-            var usuarios = await _context.Usuarios
+            var clientes = await _context.Clientes
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (usuarios == null)
+            if (clientes == null)
             {
                 return NotFound();
             }
 
-            return View(usuarios);
+            return View(clientes);
         }
 
-        // POST: Usuario/Eliminar/5
+        // POST: Clientes/Eliminar/5
         [HttpPost, ActionName("Eliminar")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var usuarios = await _context.Usuarios.FindAsync(id);
-            _context.Usuarios.Remove(usuarios);
+            var clientes = await _context.Clientes.FindAsync(id);
+            _context.Clientes.Remove(clientes);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Listar));
         }
 
-        private bool UsuariosExists(int id)
+        private bool ClientesExists(int id)
         {
-            return _context.Usuarios.Any(e => e.Id == id);
+            return _context.Clientes.Any(e => e.Id == id);
         }
     }
 }
